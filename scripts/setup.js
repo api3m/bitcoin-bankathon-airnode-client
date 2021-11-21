@@ -6,7 +6,7 @@ require('./common.js');
 
 async function main() {
   // Get from your MetaMask account details
-  const myWalletPrivateKey = "74babe13003763a98b33bd88b66c58a206cf3e967d9c7ce855d8d44b27493101";
+  const myWalletPrivateKey = TODO Put your exported private key here;
 
   // Get the api provider ID from the API Airnode docs
   const apiProviderId = "0x189989906bd5b4076005549386731dbcb69329d7b7ae4de32707a441a936ad78";
