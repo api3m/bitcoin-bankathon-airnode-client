@@ -11,7 +11,7 @@ const config = JSON.parse(fs.readFileSync("config.json"));
 
 
 async function main() {
-	console.log("Using config: " + JSON.stringify(config, null, 2));
+  console.log("Using config: " + JSON.stringify(config, null, 2));
 
   // Connect your wallet to the blockchain provider node
   const provider = new ethers.providers.JsonRpcProvider(config.rpcProviderUrl);
