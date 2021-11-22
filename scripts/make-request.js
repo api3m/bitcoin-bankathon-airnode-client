@@ -3,15 +3,15 @@ const airnodeProtocol = require('@api3/airnode-protocol');
 const airnodeAbi = require('@api3/airnode-abi');
 require('./common.js');
 
-// Get the endpoint ID from the API Airnode docs
-const endpointId = "0xf466b8feec41e9e50815e0c9dca4db1ff959637e564bb13fefa99e9f9f90453c";
 
-// Get the config object created by setup.js
-const config = JSON.parse(fs.readFileSync("config.json"));
+const dotConfigFileName = ".airnode-starter.config.json";
 
 
 async function main() {
-  console.log("Using config: " + JSON.stringify(config, null, 2));
+  // Get the config object created by setup.js
+  const config = JSON.parse(fs.readFileSync(dotConfigFileName));
+  console.log(`Using ${dotConfigFileName}: ` + JSON.stringify(config, null, 2));
+
   const [wallet] = await ethers.getSigners();
   const network = await ethers.provider.getNetwork();
   console.log(`Wallet ${wallet.address} connected to ${network.name}:${network.chainId}`);
@@ -34,7 +34,7 @@ async function main() {
   async function makeRequest() {
     const receipt = await exampleClient.makeRequest(
       config.apiProviderId,
-      endpointId,
+      config.endpointId,
       config.requesterIndex,
       config.designatedWalletAddress,
       airnodeAbi.encode([{

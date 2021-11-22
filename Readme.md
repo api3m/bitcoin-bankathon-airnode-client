@@ -26,7 +26,7 @@ npx hardhat compile
 ```
   networks: {
 	  testnet: {
-		  url: "https://public-node.testnet.rsk.co",
+		  url: "https://testnet.sovryn.app/rpc",
 		  accounts: ["PUT YOUR TEST WALLET PRIVATE KEY HERE"]
 	  }
   }
@@ -49,3 +49,13 @@ There are 3 files to read.
 1. [contracts/ExampleClient.sol](https://github.com/37Rb/airnode-client-starter-rsk/blob/main/contracts/ExampleClient.sol) is the smart contract that makes the CoinGecko API Airnode request.
 2. [scripts/setup.js](https://github.com/37Rb/airnode-client-starter-rsk/blob/main/scripts/setup.js) is the script you have to run once to set everything up. It uses Airnode Admin.
 3. [scripts/make-request.js](https://github.com/37Rb/airnode-client-starter-rsk/blob/main/scripts/make-request.js) is the script that triggers a single Airnode request. You can run it repeatedly but you will need to re-fund your designated wallet eventually.
+
+The configuration info in airnode-starter.config.json depends on the API you're calling and the blockchain you're calling it from. It can be found in the Airnode documentation for each API at https://api3.org/apis.
+
+```
+{
+  "airnodeContractAddress": "0x1190a5e1f2afe4c8128fd820a7ac85a95a9e6e3e",
+  "apiProviderId": "0x189989906bd5b4076005549386731dbcb69329d7b7ae4de32707a441a936ad78",
+  "endpointId": "0xf466b8feec41e9e50815e0c9dca4db1ff959637e564bb13fefa99e9f9f90453c"
+}
+```

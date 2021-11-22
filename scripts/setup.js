@@ -4,10 +4,13 @@ const airnodeAdmin = require('@api3/airnode-admin');
 require('./common.js');
 
 
+const configFileName = "airnode-starter.config.json";
+
+
 async function main() {
-  // Get the airnode contract address and api provider ID from the API Airnode docs
-  const airnodeContractAddress = "0x1190a5e1f2afe4c8128fd820a7ac85a95a9e6e3e";
-  const apiProviderId = "0x189989906bd5b4076005549386731dbcb69329d7b7ae4de32707a441a936ad78";
+  // Get the config object
+  const config = JSON.parse(fs.readFileSync(configFileName));
+  console.log(`Using ${configFileName}: ` + JSON.stringify(config, null, 2));
 
   const [wallet] = await ethers.getSigners();
   const network = await ethers.provider.getNetwork();
@@ -15,54 +18,51 @@ async function main() {
   await logStep(`Wallet ${wallet.address} connected to ${network.name}:${network.chainId}`);
 
   // Create a requester record
-  const airnode = new ethers.Contract(airnodeContractAddress,
+  const airnode = new ethers.Contract(
+    config.airnodeContractAddress,
     airnodeProtocol.AirnodeArtifact.abi,
-    wallet);
-  const requesterIndex = await airnodeAdmin.createRequester(airnode, wallet.address);
-  await logStep(`Created requester at index ${requesterIndex}`);
+    wallet
+  );
+  config.requesterIndex = await airnodeAdmin.createRequester(airnode, wallet.address);
+  await logStep(`Created requester at index ${config.requesterIndex}`);
 
   // Deploy the client contract
   const ExampleClientFactory = await ethers.getContractFactory("ExampleClient");
   const exampleClient = await ExampleClientFactory.deploy(airnode.address);
   await exampleClient.deployed();
-  await logStep(`ExampleClient deployed at address ${exampleClient.address}`);
+  config.exampleClientAddress = exampleClient.address;
+  await logStep(`ExampleClient deployed at address ${config.exampleClientAddress}`);
 
   // Endorse the client contract with the requester
-  await airnodeAdmin.endorseClient(airnode, requesterIndex, exampleClient.address);
-  await logStep(`Endorsed ${exampleClient.address} by requester with index ${requesterIndex}`);
+  await airnodeAdmin.endorseClient(airnode, config.requesterIndex, exampleClient.address);
+  await logStep(`Endorsed ${exampleClient.address} by requester with index ${config.requesterIndex}`);
 
   // Derive the designated wallet address
-  const designatedWalletAddress = await airnodeAdmin.deriveDesignatedWallet(
+  config.designatedWalletAddress = await airnodeAdmin.deriveDesignatedWallet(
     airnode,
-    apiProviderId,
-    requesterIndex
+    config.apiProviderId,
+    config.requesterIndex
   );
-  console.log(`Derived the address of the wallet designated for requester with index ${requesterIndex} by provider with ID ${apiProviderId} to be ${designatedWalletAddress}`);
+  console.log(`Derived the address of the wallet designated for requester with index ${config.requesterIndex} by provider with ID ${config.apiProviderId} to be ${config.designatedWalletAddress}`);
 
   // Fund the designated wallet
-  const amount = '0.001'; // ETH
+  const fundingAmountEth = '0.002';
   const sendTxn = await wallet.sendTransaction({
-    to: designatedWalletAddress,
-    value: ethers.utils.parseEther(amount),
+    to: config.designatedWalletAddress,
+    value: ethers.utils.parseEther(fundingAmountEth)
   });
   await sendTxn.wait();
-  await logStep(`Sent ${amount} ETH to the designated wallet with address ${designatedWalletAddress}`);
+  await logStep(`Sent ${fundingAmountEth} ETH to the designated wallet with address ${config.designatedWalletAddress}`);
 
   // Print how much we've spent and how much RBTC is in the designated wallet
   const totalSpentRBTC = weiToEthFixedNumber(accounting.totalSpent);
-  const designatedWalletBalance = weiToEthFixedNumber(await ethers.provider.getBalance(designatedWalletAddress));
-  console.log(`spent a total of ${totalSpentRBTC} RBTC, designated wallet ${designatedWalletAddress} has ${designatedWalletBalance} RBTC`);
+  const designatedWalletBalance = weiToEthFixedNumber(await ethers.provider.getBalance(config.designatedWalletAddress));
+  console.log(`spent a total of ${totalSpentRBTC} RBTC, designated wallet ${config.designatedWalletAddress} has ${designatedWalletBalance} RBTC`);
 
-  // Store the config object to use in make-request.js
-  const config = {
-    apiProviderId,
-    airnodeContractAddress,
-    requesterIndex,
-    exampleClientAddress: exampleClient.address,
-    designatedWalletAddress
-  };
-  fs.writeFileSync('config.json', JSON.stringify(config, null, 2));
-  console.log("Wrote the coniguration to config.json")
+  // Store the config with the newly generated included info to use in make-request.js
+  const dotConfigData = JSON.stringify(config, null, 2);
+  fs.writeFileSync('.' + configFileName, dotConfigData);
+  console.log(`Generated .${configFileName}: ${dotConfigData}`);
 }
 
 
