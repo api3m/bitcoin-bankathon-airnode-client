@@ -1,11 +1,9 @@
 const fs = require('fs');
 const airnodeProtocol = require('@api3/airnode-protocol');
 const airnodeAbi = require('@api3/airnode-abi');
-require('./common.js');
-
+const common = require('./common.js');
 
 const dotConfigFileName = ".airnode-starter.config.json";
-
 
 async function main() {
   // Get the config object created by setup.js
@@ -28,7 +26,7 @@ async function main() {
   );
 
   // Show the balance in the designated wallet
-  const designatedWalletBalance = weiToEthFixedNumber(await ethers.provider.getBalance(config.designatedWalletAddress));
+  const designatedWalletBalance = common.weiToEth(await ethers.provider.getBalance(config.designatedWalletAddress));
   console.log(`Designated wallet ${config.designatedWalletAddress} has ${designatedWalletBalance} RBTC`);
 
   // Make the request

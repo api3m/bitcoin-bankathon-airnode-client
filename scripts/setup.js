@@ -1,11 +1,9 @@
 const fs = require('fs');
 const airnodeProtocol = require('@api3/airnode-protocol');
 const airnodeAdmin = require('@api3/airnode-admin');
-require('./common.js');
-
+const common = require('./common.js');
 
 const configFileName = "airnode-starter.config.json";
-
 
 async function main() {
   // Get the config object with Airnode and API info
@@ -14,9 +12,9 @@ async function main() {
 
   // Get the preconnected wallet from Hardhat
   const [wallet] = await ethers.getSigners();
+  common.accountForWallet(wallet); // Not required, just so we can print wallet balances
   const network = await ethers.provider.getNetwork();
-  accounting.wallet = wallet; // store globally for accounting
-  await logStep(`Wallet ${wallet.address} connected to network ${network.name}:${network.chainId}`);
+  await common.logStep(`Wallet ${wallet.address} connected to network ${network.name}:${network.chainId}`);
 
   // Create a requester record
   const airnode = new ethers.Contract(
@@ -25,18 +23,18 @@ async function main() {
     wallet
   );
   config.requesterIndex = await airnodeAdmin.createRequester(airnode, wallet.address);
-  await logStep(`Created requester at index ${config.requesterIndex}`);
+  await common.logStep(`Created requester at index ${config.requesterIndex}`);
 
   // Deploy the client contract
   const ExampleClientFactory = await ethers.getContractFactory("ExampleClient");
   const exampleClient = await ExampleClientFactory.deploy(airnode.address);
   await exampleClient.deployed();
   config.exampleClientAddress = exampleClient.address;
-  await logStep(`ExampleClient contract deployed at address ${config.exampleClientAddress}`);
+  await common.logStep(`ExampleClient contract deployed at address ${config.exampleClientAddress}`);
 
   // Endorse the client contract with the requester
   await airnodeAdmin.endorseClient(airnode, config.requesterIndex, exampleClient.address);
-  await logStep(`Endorsed ${exampleClient.address} by requester with index ${config.requesterIndex}`);
+  await common.logStep(`Endorsed ${exampleClient.address} by requester with index ${config.requesterIndex}`);
 
   // Derive the designated wallet address
   config.designatedWalletAddress = await airnodeAdmin.deriveDesignatedWallet(
@@ -53,11 +51,11 @@ async function main() {
     value: ethers.utils.parseEther(fundingAmountEth)
   });
   await sendTxn.wait();
-  await logStep(`Sent ${fundingAmountEth} ETH to designated wallet ${config.designatedWalletAddress}`);
+  await common.logStep(`Sent ${fundingAmountEth} ETH to designated wallet ${config.designatedWalletAddress}`);
 
   // Print how much we've spent and how much RBTC is in the designated wallet
-  const totalSpentRBTC = weiToEthFixedNumber(accounting.totalSpent);
-  const designatedWalletBalance = weiToEthFixedNumber(await ethers.provider.getBalance(config.designatedWalletAddress));
+  const totalSpentRBTC = common.weiToEth(common.getTotalSpent());
+  const designatedWalletBalance = common.weiToEth(await ethers.provider.getBalance(config.designatedWalletAddress));
   console.log(`Spent a total of ${totalSpentRBTC} RBTC, designated wallet ${config.designatedWalletAddress} has ${designatedWalletBalance} RBTC`);
 
   // Store the config with the newly generated included info to use in make-request.js
@@ -65,34 +63,6 @@ async function main() {
   fs.writeFileSync('.' + configFileName, dotConfigData);
   console.log(`Generated .${configFileName}: ${dotConfigData}`);
 }
-
-
-// Just some accounting and formatting stuff so we can see what's happening. ///
-const accounting = {
-  wallet: null,
-  balance: null,
-  totalSpent: ethers.BigNumber.from("0"),
-  time: Date.now()
-};
-async function logStep(logLine) {
-  const newTime = Date.now();
-  const newBalance = await accounting.wallet.getBalance();
-  if (accounting.balance === null) {
-    accounting.balance = newBalance;
-  }
-  const spent = accounting.balance.sub(newBalance);
-  const spentNanoRBTC = spent.div(ethers.BigNumber.from("1000000000"));
-  const newBalanceRBTC = weiToEthFixedNumber(newBalance);
-  const elapsed = ((newTime - accounting.time) / 1000).toFixed(2);
-  const accountingLine = `--- spent ${spentNanoRBTC} nanoRBTC, have ${newBalanceRBTC} RBTC (${elapsed}s)`;
-  accounting.balance = newBalance;
-  accounting.totalSpent = accounting.totalSpent.add(spent);
-  accounting.time = Date.now();
-  console.log(logLine);
-  console.log(accountingLine);
-}
-////////////////////////////////////////////////////////////////////////////////
-
 
 main().then(() => process.exit(0)).catch((error) => {
   console.error(error);
