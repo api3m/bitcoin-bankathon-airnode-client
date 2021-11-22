@@ -41,3 +41,11 @@ npx hardhat --network testnet run scripts/setup.js
 ```
 npx hardhat --network testnet run scripts/make-request.js
 ```
+
+### Read the Code
+
+There are 3 files to read.
+
+1. [contracts/ExampleClient.sol](https://github.com/37Rb/airnode-client-starter-rsk/blob/main/contracts/ExampleClient.sol) is the smart contract that makes the CoinGecko API Airnode request.
+2. [scripts/setup.js](https://github.com/37Rb/airnode-client-starter-rsk/blob/main/scripts/setup.js) is the script you have to run once to set everything up. It uses Airnode Admin.
+3. [scripts/make-request.js](https://github.com/37Rb/airnode-client-starter-rsk/blob/main/scripts/make-request.js) is the script that triggers a single Airnode request. You can run it repeatedly but you will need to re-fund your designated wallet eventually.
