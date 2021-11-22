@@ -1,6 +1,10 @@
 # Airnode Client Starter (RSK)
 
-### Set Up Test Your Wallet
+This is a very simple demo that uses Airnode to call the ETH price API on CoinGecko from RSK Testnet.
+
+It uses [Hardhat](https://hardhat.org/getting-started/), [RSK](https://developers.rsk.co/), [NodeJS](https://nodejs.dev/learn/introduction-to-nodejs), and [Airnode Pre-Alpha](https://docs.api3.org/airnode/pre-alpha/).
+
+### Set Up Your Test Wallet
 
 1. [Configure MetaMask for RSK Testnet](https://developers.rsk.co/wallet/use/metamask/).
 
