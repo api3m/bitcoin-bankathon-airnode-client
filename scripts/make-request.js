@@ -52,7 +52,7 @@ async function main() {
     );
   }
   const requestId = await makeRequest();
-  console.log(`Completed the request with ID ${requestId}.\nWaiting for it to be fulfilled...`);
+  console.log(`Completed the request with ID ${requestId}\nWaiting for it to be fulfilled...`);
 
   function fulfilled(requestId) {
     return new Promise((resolve) =>
