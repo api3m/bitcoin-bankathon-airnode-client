@@ -12,11 +12,9 @@ const config = JSON.parse(fs.readFileSync("config.json"));
 
 async function main() {
   console.log("Using config: " + JSON.stringify(config, null, 2));
-
-  // Connect your wallet to the blockchain provider node
-  const provider = new ethers.providers.JsonRpcProvider(config.rpcProviderUrl);
-  const wallet = new ethers.Wallet(config.myWalletPrivateKey).connect(provider);
-  console.log(`Wallet ${wallet.address} connected to ${config.rpcProviderUrl}`);
+  const [wallet] = await ethers.getSigners();
+  const network = await ethers.provider.getNetwork();
+  console.log(`Wallet ${wallet.address} connected to ${network.name}:${network.chainId}`);
 
   // Get an instance of the ExampleClient we deployed
   const exampleClient = await ethers.getContractAt("ExampleClient", config.exampleClientAddress, wallet);
@@ -45,6 +43,7 @@ async function main() {
         value: 'ethereum'
       }])
     );
+    console.log(`Sent the request with transaction ${receipt.hash}`);
     return new Promise((resolve) =>
       wallet.provider.once(receipt.hash, (tx) => {
         const parsedLog = airnode.interface.parseLog(tx.logs[0]);
@@ -53,14 +52,16 @@ async function main() {
     );
   }
   const requestId = await makeRequest();
-  console.log(`Made the request with ID ${requestId}.\nWaiting for it to be fulfilled...`);
+  console.log(`Completed the request with ID ${requestId}.\nWaiting for it to be fulfilled...`);
 
   function fulfilled(requestId) {
     return new Promise((resolve) =>
       wallet.provider.once(airnode.filters.ClientRequestFulfilled(null, requestId), resolve)
     );
   }
-  await fulfilled(requestId);
+  await fulfilled(requestId).catch((err) => {
+    console.error(err);
+  });
   console.log('Request fulfilled');
   console.log(`returned data is ${(await exampleClient.fulfilledData(requestId)) / 1e6} USD`);
 }

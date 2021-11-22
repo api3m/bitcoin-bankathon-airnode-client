@@ -5,20 +5,14 @@ require('./common.js');
 
 
 async function main() {
-  // Get from your MetaMask account details
-  const myWalletPrivateKey = TODO Put your exported private key here;
-
-  // Get the api provider ID from the API Airnode docs
+  // Get the airnode contract address and api provider ID from the API Airnode docs
+  const airnodeContractAddress = "0x1190a5e1f2afe4c8128fd820a7ac85a95a9e6e3e";
   const apiProviderId = "0x189989906bd5b4076005549386731dbcb69329d7b7ae4de32707a441a936ad78";
 
-  const rpcProviderUrl = "https://public-node.testnet.rsk.co";
-  const airnodeContractAddress = "0x1190a5e1f2afe4c8128fd820a7ac85a95a9e6e3e";
-
-  // Connect your wallet to the blockchain provider node
-  const provider = new ethers.providers.JsonRpcProvider(rpcProviderUrl);
-  const wallet = new ethers.Wallet(myWalletPrivateKey).connect(provider);
+  const [wallet] = await ethers.getSigners();
+  const network = await ethers.provider.getNetwork();
   accounting.wallet = wallet; // store globally just for accounting
-  await logStep(`Wallet ${wallet.address} connected to ${rpcProviderUrl}`);
+  await logStep(`Wallet ${wallet.address} connected to ${network.name}:${network.chainId}`);
 
   // Create a requester record
   const airnode = new ethers.Contract(airnodeContractAddress,
@@ -61,9 +55,7 @@ async function main() {
 
   // Store the config object to use in make-request.js
   const config = {
-    myWalletPrivateKey,
     apiProviderId,
-    rpcProviderUrl,
     airnodeContractAddress,
     requesterIndex,
     exampleClientAddress: exampleClient.address,
