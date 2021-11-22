@@ -8,14 +8,15 @@ const configFileName = "airnode-starter.config.json";
 
 
 async function main() {
-  // Get the config object
+  // Get the config object with Airnode and API info
   const config = JSON.parse(fs.readFileSync(configFileName));
   console.log(`Using ${configFileName}: ` + JSON.stringify(config, null, 2));
 
+  // Get the preconnected wallet from Hardhat
   const [wallet] = await ethers.getSigners();
   const network = await ethers.provider.getNetwork();
-  accounting.wallet = wallet; // store globally just for accounting
-  await logStep(`Wallet ${wallet.address} connected to ${network.name}:${network.chainId}`);
+  accounting.wallet = wallet; // store globally for accounting
+  await logStep(`Wallet ${wallet.address} connected to network ${network.name}:${network.chainId}`);
 
   // Create a requester record
   const airnode = new ethers.Contract(
@@ -31,7 +32,7 @@ async function main() {
   const exampleClient = await ExampleClientFactory.deploy(airnode.address);
   await exampleClient.deployed();
   config.exampleClientAddress = exampleClient.address;
-  await logStep(`ExampleClient deployed at address ${config.exampleClientAddress}`);
+  await logStep(`ExampleClient contract deployed at address ${config.exampleClientAddress}`);
 
   // Endorse the client contract with the requester
   await airnodeAdmin.endorseClient(airnode, config.requesterIndex, exampleClient.address);
@@ -43,7 +44,7 @@ async function main() {
     config.apiProviderId,
     config.requesterIndex
   );
-  console.log(`Derived the address of the wallet designated for requester with index ${config.requesterIndex} by provider with ID ${config.apiProviderId} to be ${config.designatedWalletAddress}`);
+  console.log(`Derived the designated wallet ${config.designatedWalletAddress} for requester index ${config.requesterIndex} by provider ${config.apiProviderId}`);
 
   // Fund the designated wallet
   const fundingAmountEth = '0.002';
@@ -52,12 +53,12 @@ async function main() {
     value: ethers.utils.parseEther(fundingAmountEth)
   });
   await sendTxn.wait();
-  await logStep(`Sent ${fundingAmountEth} ETH to the designated wallet with address ${config.designatedWalletAddress}`);
+  await logStep(`Sent ${fundingAmountEth} ETH to designated wallet ${config.designatedWalletAddress}`);
 
   // Print how much we've spent and how much RBTC is in the designated wallet
   const totalSpentRBTC = weiToEthFixedNumber(accounting.totalSpent);
   const designatedWalletBalance = weiToEthFixedNumber(await ethers.provider.getBalance(config.designatedWalletAddress));
-  console.log(`spent a total of ${totalSpentRBTC} RBTC, designated wallet ${config.designatedWalletAddress} has ${designatedWalletBalance} RBTC`);
+  console.log(`Spent a total of ${totalSpentRBTC} RBTC, designated wallet ${config.designatedWalletAddress} has ${designatedWalletBalance} RBTC`);
 
   // Store the config with the newly generated included info to use in make-request.js
   const dotConfigData = JSON.stringify(config, null, 2);

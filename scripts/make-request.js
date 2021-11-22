@@ -12,9 +12,10 @@ async function main() {
   const config = JSON.parse(fs.readFileSync(dotConfigFileName));
   console.log(`Using ${dotConfigFileName}: ` + JSON.stringify(config, null, 2));
 
+  // Get the preconnected wallet from Hardhat
   const [wallet] = await ethers.getSigners();
   const network = await ethers.provider.getNetwork();
-  console.log(`Wallet ${wallet.address} connected to ${network.name}:${network.chainId}`);
+  console.log(`Wallet ${wallet.address} connected to network ${network.name}:${network.chainId}`);
 
   // Get an instance of the ExampleClient we deployed
   const exampleClient = await ethers.getContractAt("ExampleClient", config.exampleClientAddress, wallet);
@@ -30,7 +31,7 @@ async function main() {
   const designatedWalletBalance = weiToEthFixedNumber(await ethers.provider.getBalance(config.designatedWalletAddress));
   console.log(`Designated wallet ${config.designatedWalletAddress} has ${designatedWalletBalance} RBTC`);
 
-  console.log('Making the request...');
+  // Make the request
   async function makeRequest() {
     const receipt = await exampleClient.makeRequest(
       config.apiProviderId,
@@ -51,8 +52,9 @@ async function main() {
       })
     );
   }
+  console.log(`Making the request...`);
   const requestId = await makeRequest();
-  console.log(`Completed the request with ID ${requestId}\nWaiting for it to be fulfilled...`);
+  console.log(`Completed the request with ID ${requestId}, waiting for fulfillment...`);
 
   function fulfilled(requestId) {
     return new Promise((resolve) =>
@@ -62,8 +64,7 @@ async function main() {
   await fulfilled(requestId).catch((err) => {
     console.error(err);
   });
-  console.log('Request fulfilled');
-  console.log(`returned data is ${(await exampleClient.fulfilledData(requestId)) / 1e6} USD`);
+  console.log(`Request fulfilled with data: ${(await exampleClient.fulfilledData(requestId)) / 1e6} USD`);
 }
 
 
