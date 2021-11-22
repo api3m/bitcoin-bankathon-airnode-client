@@ -26,7 +26,7 @@ npm install
 npx hardhat compile
 ```
 
-3. Put your test wallet private key in hardhat.config.js.
+3. Put your test wallet private key in [hardhat.config.js](https://github.com/37Rb/airnode-client-starter-rsk/blob/main/hardhat.config.js).
 ```
   networks: {
 	  testnet: {
