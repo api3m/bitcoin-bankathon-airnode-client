@@ -22,7 +22,7 @@ npm install
 npx hardhat compile
 ```
 
-3. Setup the requester and contract on RSK Testnet. Put your test wallet private key in hardhat.config.js and then run...
+3. Put your test wallet private key in hardhat.config.js.
 ```
   networks: {
 	  testnet: {
@@ -31,11 +31,13 @@ npx hardhat compile
 	  }
   }
 ```
+
+4. Setup the requester and contract on RSK Testnet.
 ```
 npx hardhat --network testnet run scripts/setup.js
 ```
 
-4. Make a request.
+5. Make a request.
 ```
 npx hardhat --network testnet run scripts/make-request.js
 ```
