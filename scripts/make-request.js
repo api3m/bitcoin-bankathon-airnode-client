@@ -1,21 +1,30 @@
 const fs = require('fs');
 const airnodeProtocol = require('@api3/airnode-protocol');
 const airnodeAbi = require('@api3/airnode-abi');
-const common = require('./common.js');
+const airnodeAdmin = require('@api3/airnode-admin');
 
-const dotConfigFileName = ".airnode-starter.config.json";
+
+// Copy the API exampled from the Readme here. /////////////////////////////////
+const apiProviderId = "0xc6323485739cdf4f1073c1b21bb21a8a5c0a619ffb84dd56c4f4454af2802a40";
+const endpointId = "0xbfd499b3bebd55fe02ddcdd5a2f1ab36ef75fb3ace1de05c878d0b53ce4a7296";
+const endpointAbi = [
+	{ name: '_path', type: 'bytes32', value: 'banks.0.id'},
+	{ name: '_type', type: 'bytes32', value: 'bytes32'}
+];
+const showResult = (data) => ethers.utils.parseBytes32String(data);
+////////////////////////////////////////////////////////////////////////////////
+
 
 async function main() {
   // Get the config object created by setup.js
-  const config = JSON.parse(fs.readFileSync(dotConfigFileName));
-  console.log(`Using ${dotConfigFileName}: ` + JSON.stringify(config, null, 2));
+  const config = JSON.parse(fs.readFileSync(".airnode-starter.config.json"));
+  console.log(`Using config: ` + JSON.stringify(config, null, 2));
 
   // Get the preconnected wallet from Hardhat
   const [wallet] = await ethers.getSigners();
-  const network = await ethers.provider.getNetwork();
-  console.log(`Wallet ${wallet.address} connected to network ${network.name}:${network.chainId}`);
+  console.log(`Using wallet ${wallet.address} and Airnode ${config.airnodeContractAddress}`);
 
-  // Get an instance of the ExampleClient we deployed
+  // Get an instance of the ExampleClient we deployed in setup.js
   const exampleClient = await ethers.getContractAt("ExampleClient", config.exampleClientAddress, wallet);
 
   // Get an instance if the Airnode RRP contract
@@ -25,20 +34,35 @@ async function main() {
     wallet
   );
 
-  // Show the balance in the designated wallet
-  const designatedWalletBalance = common.weiToEth(await ethers.provider.getBalance(config.designatedWalletAddress));
-  console.log(`Designated wallet ${config.designatedWalletAddress} has ${designatedWalletBalance} RBTC`);
+  // Derive the designated wallet address
+  const designatedWalletAddress = await airnodeAdmin.deriveDesignatedWallet(
+    airnode,
+    apiProviderId,
+    config.requesterIndex
+  );
+  console.log(`Derived the designated wallet ${config.designatedWalletAddress} for requester index ${config.requesterIndex} by provider ${config.apiProviderId}`);
+
+  // Check the designated wallet and make sure it's funded
+  const designatedWalletBalance = await ethers.provider.getBalance(designatedWalletAddress);
+  if (designatedWalletBalance >= 1e14) { // >= 0.0001 RBTC
+    console.log(`Designated wallet ${designatedWalletAddress} has ${weiToEth(designatedWalletBalance)} RBTC`);
+  } else {
+    console.log(`Designated wallet ${designatedWalletAddress} has ${weiToEth(designatedWalletBalance)} RBTC, funding...`);
+    const sendTxn = await wallet.sendTransaction({
+      to: designatedWalletAddress,
+      value: ethers.utils.parseEther('0.001')
+    });
+    await sendTxn.wait();
+  }
 
   // Make the request
   async function makeRequest() {
     const receipt = await exampleClient.makeRequest(
-      config.apiProviderId,
-      config.endpointId,
+      apiProviderId,
+      endpointId,
       config.requesterIndex,
-      config.designatedWalletAddress,
-			airnodeAbi.encode([
-				{ name: '_path', type: 'bytes32', value: 'banks.0.id'},
-      	{ name: '_type', type: 'bytes32', value: 'bytes32'},])
+      designatedWalletAddress,
+      airnodeAbi.encode(endpointAbi)
     );
     console.log(`Sent the request with transaction ${receipt.hash}`);
     return new Promise((resolve) =>
@@ -58,15 +82,14 @@ async function main() {
     );
   }
   await fulfilled(requestId);
-	console.log('Request fulfilled, getting response...');
-	const data = ethers.utils.parseBytes32String(await exampleClient.fulfilledData(requestId));
-  console.log(`Got response: "${data}" (${data.length} chars)`);
-	// console.log(`Got response: ${data}`);
-
-	console.log(await exampleClient.getAbc());
-	console.log(ethers.utils.parseBytes32String(await exampleClient.getDef()));
+  console.log('Request fulfilled, getting response...');
+  const result = showResult(await exampleClient.fulfilledData(requestId));
+  console.log(`Got response: ${result}`);
 }
 
+function weiToEth(wei, precision = 6) {
+  return Number(ethers.utils.formatEther(wei)).toFixed(precision);
+}
 
 main().then(() => process.exit(0)).catch((error) => {
   console.error(error);

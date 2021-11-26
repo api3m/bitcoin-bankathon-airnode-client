@@ -46,7 +46,7 @@ contract ExampleClient is AirnodeClient {
         if (statusCode == 0) {
             fulfilledData[requestId] = data;
         } else {
-			fulfilledData[requestId] = bytes32(statusCode);
-		}
+            fulfilledData[requestId] = bytes32(statusCode);
+        }
     }
 }

@@ -1,6 +1,6 @@
-# Airnode Client Starter (RSK)
+# Bitcoin Bankathon Airnode Client
 
-This is a very simple demo that uses Airnode to call the ETH price API on CoinGecko from RSK Testnet.
+This is a very simple demo that uses Airnode to call APIs available for the [Bitcoin Bankathon](https://bitcoin-alliance.org/).
 
 It uses [Hardhat](https://hardhat.org/getting-started/), [RSK](https://developers.rsk.co/), [NodeJS](https://nodejs.dev/learn/introduction-to-nodejs), and [Airnode Pre-Alpha](https://docs.api3.org/airnode/pre-alpha/).
 
@@ -26,7 +26,7 @@ npm install
 npx hardhat compile
 ```
 
-3. Put your test wallet private key in [hardhat.config.js](https://github.com/37Rb/airnode-client-starter-rsk/blob/main/hardhat.config.js).
+3. Put your test wallet private key in hardhat.config.js.
 ```
   networks: {
 	  testnet: {
@@ -36,7 +36,7 @@ npx hardhat compile
   }
 ```
 
-4. Setup the requester and contract on RSK Testnet.
+4. Deploy the requester and client contract on RSK Testnet.
 ```
 npx hardhat --network testnet run scripts/setup.js
 ```
@@ -54,12 +54,27 @@ There are 3 files to read.
 2. [scripts/setup.js](https://github.com/37Rb/airnode-client-starter-rsk/blob/main/scripts/setup.js) is the script you have to run once to set everything up. It uses Airnode Admin to prepare everything.
 3. [scripts/make-request.js](https://github.com/37Rb/airnode-client-starter-rsk/blob/main/scripts/make-request.js) is the script that triggers a single Airnode request. You can run it repeatedly but you will need to re-fund your designated wallet eventually.
 
-The configuration info in airnode-starter.config.json depends on the API you're calling and the blockchain you're calling it from. It can be found in the Airnode documentation for each API at https://api3.org/apis.
+### Call More APIs
 
+Out of the box make-request.js calls the Get Banks API from the [Banco Hipotecario Open Bank Project sandbox](https://obp-apiexplorer.bancohipotecario.com.sv/). You can call additional APIs by replacing the code near the top of make-request.js with these other examples.
+
+#### Open Bank Project > Get Banks
+
+```javascript
+const apiProviderId = "0xc6323485739cdf4f1073c1b21bb21a8a5c0a619ffb84dd56c4f4454af2802a40";
+const endpointId = "0xbfd499b3bebd55fe02ddcdd5a2f1ab36ef75fb3ace1de05c878d0b53ce4a7296";
+const endpointAbi = [
+	{ name: '_path', type: 'bytes32', value: 'banks.0.id'},
+	{ name: '_type', type: 'bytes32', value: 'bytes32'}
+];
+const showResult = (data) => ethers.utils.parseBytes32String(data);
 ```
-{
-  "airnodeContractAddress": "0x1190a5e1f2afe4c8128fd820a7ac85a95a9e6e3e",
-  "apiProviderId": "0x189989906bd5b4076005549386731dbcb69329d7b7ae4de32707a441a936ad78",
-  "endpointId": "0xf466b8feec41e9e50815e0c9dca4db1ff959637e564bb13fefa99e9f9f90453c"
-}
+
+#### CoinGecko > Get Price
+
+```javascript
+const apiProviderId = "0x189989906bd5b4076005549386731dbcb69329d7b7ae4de32707a441a936ad78";
+const endpointId = "0xf466b8feec41e9e50815e0c9dca4db1ff959637e564bb13fefa99e9f9f90453c";
+const endpointAbi = [{ name: 'coinId', type: 'bytes32', value: 'ethereum' }];
+const showResult = (data) => (data / 1e6) + " USD";
 ```
