@@ -1,8 +1,8 @@
 # Bitcoin Bankathon Airnode Client
 
-This is a very simple demo that uses Airnode to call APIs available for the [Bitcoin Bankathon](https://bitcoin-alliance.org/).
+This is a very simple demo that uses Airnode to call APIs available for the [Bitcoin Bankathon](https://bitcoin-alliance.org/). All of the APIs listed at https://api3.org/results?search=bankathon are available to use. If you need an API that isn't listed here, just ask!
 
-It uses [Hardhat](https://hardhat.org/getting-started/), [RSK](https://developers.rsk.co/), [NodeJS](https://nodejs.dev/learn/introduction-to-nodejs), and [Airnode Pre-Alpha](https://docs.api3.org/airnode/pre-alpha/).
+The project uses [Hardhat](https://hardhat.org/getting-started/), [RSK](https://developers.rsk.co/), [NodeJS](https://nodejs.dev/learn/introduction-to-nodejs), and [Airnode Pre-Alpha](https://docs.api3.org/airnode/pre-alpha/).
 
 ### Set Up Your Test Wallet
 
@@ -56,7 +56,7 @@ There are 3 files to read.
 
 ### Call More APIs
 
-Out of the box make-request.js calls the Get Banks API from the [Banco Hipotecario Open Bank Project sandbox](https://obp-apiexplorer.bancohipotecario.com.sv/). You can call additional APIs by replacing the code near the top of make-request.js where it says `Copy/paste API examples from the Readme here!!!` with these examples.
+Out of the box make-request.js calls the Get Banks API from the [Banco Hipotecario Open Bank Project sandbox](https://obp-apiexplorer.bancohipotecario.com.sv/). You can call [additional Bitcoin Bankathon APIs](https://api3.org/results?search=bankathon) by replacing the code near the top of make-request.js where it says `Copy/paste API examples from the Readme here!!!` with these examples.
 
 #### Open Bank Project > Get Banks
 
