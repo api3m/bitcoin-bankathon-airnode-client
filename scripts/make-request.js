@@ -40,7 +40,7 @@ async function main() {
     apiProviderId,
     config.requesterIndex
   );
-  console.log(`Derived the designated wallet ${config.designatedWalletAddress} for requester index ${config.requesterIndex} by provider ${config.apiProviderId}`);
+  console.log(`Derived the designated wallet ${designatedWalletAddress} for requester index ${config.requesterIndex} by provider ${apiProviderId}`);
 
   // Check the designated wallet and make sure it's funded
   const designatedWalletBalance = await ethers.provider.getBalance(designatedWalletAddress);
@@ -65,6 +65,7 @@ async function main() {
       airnodeAbi.encode(endpointAbi)
     );
     console.log(`Sent the request with transaction ${receipt.hash}`);
+
     return new Promise((resolve) =>
       wallet.provider.once(receipt.hash, (tx) => {
         const parsedLog = airnode.interface.parseLog(tx.logs[0]);
@@ -72,6 +73,7 @@ async function main() {
       })
     );
   }
+
   console.log(`Making the request...`);
   const requestId = await makeRequest();
   console.log(`Completed the request with ID ${requestId}, waiting for fulfillment...`);
@@ -83,6 +85,7 @@ async function main() {
   }
   await fulfilled(requestId);
   console.log('Request fulfilled, getting response...');
+
   const result = showResult(await exampleClient.fulfilledData(requestId));
   console.log(`Got response: ${result}`);
 }

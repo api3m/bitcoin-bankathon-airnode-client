@@ -31,7 +31,7 @@ npx hardhat compile
   networks: {
 	  testnet: {
 		  url: "https://testnet.sovryn.app/rpc",
-		  accounts: ["PUT YOUR TEST WALLET PRIVATE KEY HERE"]
+		  accounts: ["0xPUT YOUR TEST WALLET PRIVATE KEY HERE"]
 	  }
   }
 ```
