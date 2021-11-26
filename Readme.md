@@ -56,7 +56,7 @@ There are 3 files to read.
 
 ### Call More APIs
 
-Out of the box make-request.js calls the Get Banks API from the [Banco Hipotecario Open Bank Project sandbox](https://obp-apiexplorer.bancohipotecario.com.sv/). You can call additional APIs by replacing the code near the top of make-request.js with these other examples.
+Out of the box make-request.js calls the Get Banks API from the [Banco Hipotecario Open Bank Project sandbox](https://obp-apiexplorer.bancohipotecario.com.sv/). You can call additional APIs by replacing the code near the top of make-request.js where it says `Copy/paste API examples from the Readme here!!!` with these examples.
 
 #### Open Bank Project > Get Banks
 
