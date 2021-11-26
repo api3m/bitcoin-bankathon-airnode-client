@@ -36,11 +36,9 @@ async function main() {
       config.endpointId,
       config.requesterIndex,
       config.designatedWalletAddress,
-      airnodeAbi.encode([{
-        name: 'coinId',
-        type: 'bytes32',
-        value: 'ethereum'
-      }])
+			airnodeAbi.encode([
+				{ name: '_path', type: 'bytes32', value: 'banks.0.id'},
+      	{ name: '_type', type: 'bytes32', value: 'bytes32'},])
     );
     console.log(`Sent the request with transaction ${receipt.hash}`);
     return new Promise((resolve) =>
@@ -59,10 +57,14 @@ async function main() {
       wallet.provider.once(airnode.filters.ClientRequestFulfilled(null, requestId), resolve)
     );
   }
-  await fulfilled(requestId).catch((err) => {
-    console.error(err);
-  });
-  console.log(`Request fulfilled with data: ${(await exampleClient.fulfilledData(requestId)) / 1e6} USD`);
+  await fulfilled(requestId);
+	console.log('Request fulfilled, getting response...');
+	const data = ethers.utils.parseBytes32String(await exampleClient.fulfilledData(requestId));
+  console.log(`Got response: "${data}" (${data.length} chars)`);
+	// console.log(`Got response: ${data}`);
+
+	console.log(await exampleClient.getAbc());
+	console.log(ethers.utils.parseBytes32String(await exampleClient.getDef()));
 }
 
 

@@ -45,7 +45,7 @@ async function main() {
   console.log(`Derived the designated wallet ${config.designatedWalletAddress} for requester index ${config.requesterIndex} by provider ${config.apiProviderId}`);
 
   // Fund the designated wallet
-  const fundingAmountEth = '0.002';
+  const fundingAmountEth = '0.001';
   const sendTxn = await wallet.sendTransaction({
     to: config.designatedWalletAddress,
     value: ethers.utils.parseEther(fundingAmountEth)

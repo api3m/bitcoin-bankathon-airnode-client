@@ -5,7 +5,7 @@ import "@api3/airnode-protocol/contracts/AirnodeClient.sol";
 
 contract ExampleClient is AirnodeClient {
     mapping(bytes32 => bool) public incomingFulfillments;
-    mapping(bytes32 => int256) public fulfilledData;
+    mapping(bytes32 => bytes32) public fulfilledData;
 
     constructor (address airnodeAddress)
         public
@@ -32,19 +32,21 @@ contract ExampleClient is AirnodeClient {
             );
         incomingFulfillments[requestId] = true;
     }
+
     function fulfill(
         bytes32 requestId,
         uint256 statusCode,
-        int256 data
+        bytes32 data
         )
         external
         onlyAirnode()
     {
         require(incomingFulfillments[requestId], "No such request made");
         delete incomingFulfillments[requestId];
-        if (statusCode == 0)
-        {
+        if (statusCode == 0) {
             fulfilledData[requestId] = data;
-        }
+        } else {
+			fulfilledData[requestId] = bytes32(statusCode);
+		}
     }
 }
