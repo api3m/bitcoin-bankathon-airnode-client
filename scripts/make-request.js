@@ -4,7 +4,7 @@ const airnodeAbi = require('@api3/airnode-abi');
 const airnodeAdmin = require('@api3/airnode-admin');
 
 
-// Copy the API exampled from the Readme here. /////////////////////////////////
+// Copy/paste API examples from the Readme here!!! /////////////////////////////
 const apiProviderId = "0xc6323485739cdf4f1073c1b21bb21a8a5c0a619ffb84dd56c4f4454af2802a40";
 const endpointId = "0xbfd499b3bebd55fe02ddcdd5a2f1ab36ef75fb3ace1de05c878d0b53ce4a7296";
 const endpointAbi = [
