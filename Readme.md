@@ -83,8 +83,6 @@ const showResult = (data) => (data / 1e6) + " USD";
 
 #### Sanctions.io : Get Programs
 
-> :warning: This doesn't seem to work!
-
 ```javascript
 const apiProviderId = "0x797a83d217645fc2f6af6f96a63795a02b6243908070eaa48be2a5bacb435956";
 const endpointId = "0x809a51553f8634545ea95cbe6a90f7902d4d0056fae1aa3ec7b709664aec891b";
@@ -92,5 +90,5 @@ const endpointAbi = [
 	{ name: '_path', type: 'bytes32', value: 'count'},
 	{ name: '_type', type: 'bytes32', value: 'int256'}
 ];
-const showResult = (data) => data + " programs";
+const showResult = (data) => parseInt(data) + " programs";
 ```
