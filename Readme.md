@@ -1,8 +1,8 @@
 # Bitcoin Bankathon Airnode Client
 
-This is a very simple demo that uses Airnode to call APIs available for the [Bitcoin Bankathon](https://bitcoin-alliance.org/). All of the APIs listed at https://api3.org/results?search=bankathon are available to use. If you need an API that isn't listed here, just ask!
+This is a very simple demo that uses Airnode to call APIs available in the [Bitcoin Bankathon](https://bitcoin-alliance.org/). All of the APIs listed at https://api3.org/results?search=bankathon are available to use. If you need an API that isn't listed here, just ask!
 
-The project uses [Hardhat](https://hardhat.org/getting-started/), [RSK](https://developers.rsk.co/), [NodeJS](https://nodejs.dev/learn/introduction-to-nodejs), and [Airnode Pre-Alpha](https://docs.api3.org/airnode/pre-alpha/).
+The project uses [Hardhat](https://hardhat.org/getting-started/), [NodeJS](https://nodejs.dev/learn/introduction-to-nodejs), [RSK](https://developers.rsk.co/), and [Airnode Pre-Alpha](https://docs.api3.org/airnode/pre-alpha/).
 
 ### Set Up Your Test Wallet
 
@@ -50,13 +50,13 @@ npx hardhat --network testnet run scripts/make-request.js
 
 There are 3 files to read.
 
-1. [contracts/ExampleClient.sol](https://github.com/37Rb/airnode-client-starter-rsk/blob/main/contracts/ExampleClient.sol) is the smart contract that makes the CoinGecko API Airnode request.
+1. [contracts/ExampleClient.sol](https://github.com/37Rb/airnode-client-starter-rsk/blob/main/contracts/ExampleClient.sol) is the smart contract that makes the API request with Airnode.
 2. [scripts/setup.js](https://github.com/37Rb/airnode-client-starter-rsk/blob/main/scripts/setup.js) is the script you have to run once to set everything up. It uses Airnode Admin to prepare everything.
 3. [scripts/make-request.js](https://github.com/37Rb/airnode-client-starter-rsk/blob/main/scripts/make-request.js) is the script that triggers a single Airnode request. You can run it repeatedly but you will need to re-fund your designated wallet eventually.
 
 ### Call More APIs
 
-Out of the box make-request.js calls the Get Banks API from the [Banco Hipotecario Open Bank Project sandbox](https://obp-apiexplorer.bancohipotecario.com.sv/). You can call [additional Bitcoin Bankathon APIs](https://api3.org/results?search=bankathon) by replacing the code near the top of make-request.js where it says `Copy/paste API examples from the Readme here!!!` with these examples.
+Out of the box, make-request.js calls the "Get Banks" API from the [Banco Hipotecario Open Bank Project sandbox](https://obp-apiexplorer.bancohipotecario.com.sv/). You can call [additional Bitcoin Bankathon APIs](https://api3.org/results?search=bankathon) by replacing the code near the top of make-request.js where it says `Copy/paste API examples from the Readme here!!!` with these examples.
 
 #### Open Bank Project > Get Banks
 
