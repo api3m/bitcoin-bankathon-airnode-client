@@ -4,6 +4,8 @@ This is a basic demo project that uses Airnode to call APIs available in the [Bi
 
 The project uses [Hardhat](https://hardhat.org/getting-started/), [NodeJS](https://nodejs.dev/learn/introduction-to-nodejs), [RSK](https://developers.rsk.co/), and [Airnode Pre-Alpha](https://docs.api3.org/airnode/pre-alpha/).
 
+RSK mines a block about [once every 30 seconds](https://www.rsk.co/faqs#scalability) so be patient when running the scripts.
+
 ### Set Up Your Test Wallet
 
 1. [Configure MetaMask for RSK Testnet](https://developers.rsk.co/wallet/use/metamask/).
@@ -77,4 +79,18 @@ const apiProviderId = "0x189989906bd5b4076005549386731dbcb69329d7b7ae4de32707a44
 const endpointId = "0xf466b8feec41e9e50815e0c9dca4db1ff959637e564bb13fefa99e9f9f90453c";
 const endpointAbi = [{ name: 'coinId', type: 'bytes32', value: 'ethereum' }];
 const showResult = (data) => (data / 1e6) + " USD";
+```
+
+#### Sanctions.io : Get Programs
+
+> :warning: This doesn't seem to work!
+
+```javascript
+const apiProviderId = "0x797a83d217645fc2f6af6f96a63795a02b6243908070eaa48be2a5bacb435956";
+const endpointId = "0x809a51553f8634545ea95cbe6a90f7902d4d0056fae1aa3ec7b709664aec891b";
+const endpointAbi = [
+	{ name: '_path', type: 'bytes32', value: 'count'},
+	{ name: '_type', type: 'bytes32', value: 'int256'}
+];
+const showResult = (data) => data + " programs";
 ```

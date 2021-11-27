@@ -74,7 +74,7 @@ async function main() {
     );
   }
 
-  console.log(`Making the request...`);
+  console.log(`Making the request to API provider ${apiProviderId} endoint ${endpointId}...`);
   const requestId = await makeRequest();
   console.log(`Completed the request with ID ${requestId}, waiting for fulfillment...`);
 
