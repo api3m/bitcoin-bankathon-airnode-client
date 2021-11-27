@@ -1,6 +1,6 @@
 # Bitcoin Bankathon Airnode Client
 
-This is a very simple demo that uses Airnode to call APIs available in the [Bitcoin Bankathon](https://bitcoin-alliance.org/). All of the APIs listed at https://api3.org/results?search=bankathon are available to use. If you need an API that isn't listed here, just ask!
+This is a basic demo project that uses Airnode to call APIs available in the [Bitcoin Bankathon](https://bitcoin-alliance.org/). All of the APIs listed at https://api3.org/results?search=bankathon are available to use. If you need an API that isn't listed here, just ask!
 
 The project uses [Hardhat](https://hardhat.org/getting-started/), [NodeJS](https://nodejs.dev/learn/introduction-to-nodejs), [RSK](https://developers.rsk.co/), and [Airnode Pre-Alpha](https://docs.api3.org/airnode/pre-alpha/).
 
@@ -10,7 +10,7 @@ The project uses [Hardhat](https://hardhat.org/getting-started/), [NodeJS](https
 
 2. [Create a new test account](https://metamask.zendesk.com/hc/en-us/articles/360015289452-How-to-create-an-additional-account-in-your-MetaMask-wallet). DO NOT use a mainnet account as we'll be insecurely exporting and handling the private key.
 
-3. [Fund your test account](https://faucet.rsk.co/) with the RSK Testnet faucet. You can add 0.05 RBTC to your test wallet per day.
+3. [Fund your test account](https://faucet.rsk.co/) with the RSK Testnet faucet. You can add 0.05 RBTC to your test wallet per day using the faucet.
 
 4. [Export your test wallet private key](https://metamask.zendesk.com/hc/en-us/articles/360015289632-How-to-Export-an-Account-Private-Key). You'll need it in the next section.
 
@@ -26,8 +26,8 @@ npm install
 npx hardhat compile
 ```
 
-3. Put your test wallet private key in hardhat.config.js.
-```
+3. Put your test wallet private key in [hardhat.config.js](https://github.com/api3m/bitcoin-bankathon-airnode-client/blob/main/hardhat.config.js).
+```javascript
   networks: {
 	  testnet: {
 		  url: "https://testnet.sovryn.app/rpc",
@@ -36,7 +36,7 @@ npx hardhat compile
   }
 ```
 
-4. Deploy the requester and client contract on RSK Testnet. You only need to run this once.
+4. Deploy the ExampleClient contract and create a requester on RSK Testnet. You only need to run this once.
 ```
 npx hardhat --network testnet run scripts/setup.js
 ```
@@ -50,15 +50,15 @@ npx hardhat --network testnet run scripts/make-request.js
 
 There are 3 files to read.
 
-1. [contracts/ExampleClient.sol](https://github.com/37Rb/airnode-client-starter-rsk/blob/main/contracts/ExampleClient.sol) is the smart contract that makes the API request with Airnode.
-2. [scripts/setup.js](https://github.com/37Rb/airnode-client-starter-rsk/blob/main/scripts/setup.js) is the script you have to run once to set everything up. It uses Airnode Admin to prepare everything.
-3. [scripts/make-request.js](https://github.com/37Rb/airnode-client-starter-rsk/blob/main/scripts/make-request.js) is the script that triggers a single Airnode request. You can run it repeatedly to call different APIs.
+1. [contracts/ExampleClient.sol](https://github.com/37Rb/airnode-client-starter-rsk/blob/main/contracts/ExampleClient.sol) is the smart contract that makes API requests to Airnode.
+2. [scripts/setup.js](https://github.com/37Rb/airnode-client-starter-rsk/blob/main/scripts/setup.js) is the script you run once to set everything up. It uses Airnode Admin.
+3. [scripts/make-request.js](https://github.com/37Rb/airnode-client-starter-rsk/blob/main/scripts/make-request.js) is the script that triggers an Airnode request. You can run it repeatedly to call different APIs.
 
 ### Call More APIs
 
-Out of the box, make-request.js calls the "Get Banks" API from the [Banco Hipotecario Open Bank Project sandbox](https://obp-apiexplorer.bancohipotecario.com.sv/). You can call [additional Bitcoin Bankathon APIs](https://api3.org/results?search=bankathon) by replacing the code near the top of make-request.js where it says `Copy/paste API examples from the Readme here!!!` with these examples.
+Out of the box, make-request.js calls the "Get Banks" API from the [Banco Hipotecario Open Bank Project sandbox](https://obp-apiexplorer.bancohipotecario.com.sv/). You can call [additional Bitcoin Bankathon APIs](https://api3.org/results?search=bankathon) by replacing the code near the top of make-request.js where it says `Copy/paste API examples from the Readme here!!!` with the different examples here.
 
-#### Open Bank Project > Get Banks
+#### Open Bank Project : Get Banks
 
 ```javascript
 const apiProviderId = "0xc6323485739cdf4f1073c1b21bb21a8a5c0a619ffb84dd56c4f4454af2802a40";
@@ -70,7 +70,7 @@ const endpointAbi = [
 const showResult = (data) => ethers.utils.parseBytes32String(data);
 ```
 
-#### CoinGecko > Get Price
+#### CoinGecko : Get Price
 
 ```javascript
 const apiProviderId = "0x189989906bd5b4076005549386731dbcb69329d7b7ae4de32707a441a936ad78";
