@@ -8,7 +8,7 @@ module.exports = {
   networks: {
     testnet: {
       url: "https://testnet.sovryn.app/rpc",
-      accounts: ["0x74babe13003763a98b33bd88b66c58a206cf3e967d9c7ce855d8d44b27493101"]
+      accounts: ["0xPUT YOUR TEST WALLET PRIVATE KEY HERE"]
     }
   }
 };

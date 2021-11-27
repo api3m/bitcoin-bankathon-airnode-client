@@ -78,6 +78,7 @@ async function main() {
   const requestId = await makeRequest();
   console.log(`Completed the request with ID ${requestId}, waiting for fulfillment...`);
 
+  // Listen for the event announcing that the request was fulfilled
   function fulfilled(requestId) {
     return new Promise((resolve) =>
       wallet.provider.once(airnode.filters.ClientRequestFulfilled(null, requestId), resolve)
@@ -86,6 +87,7 @@ async function main() {
   await fulfilled(requestId);
   console.log('Request fulfilled, getting response...');
 
+  // Read the fulfilled result from the blockchain
   const result = showResult(await exampleClient.fulfilledData(requestId));
   console.log(`Got response: ${result}`);
 }
