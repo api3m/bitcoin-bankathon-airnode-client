@@ -36,12 +36,12 @@ npx hardhat compile
   }
 ```
 
-4. Deploy the requester and client contract on RSK Testnet.
+4. Deploy the requester and client contract on RSK Testnet. You only need to run this once.
 ```
 npx hardhat --network testnet run scripts/setup.js
 ```
 
-5. Make a request.
+5. Make a request. You can run this repeatedly to make API requests.
 ```
 npx hardhat --network testnet run scripts/make-request.js
 ```
