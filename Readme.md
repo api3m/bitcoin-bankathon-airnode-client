@@ -28,7 +28,7 @@ npm install
 npx hardhat compile
 ```
 
-3. Put your test wallet private key in [hardhat.config.js](https://github.com/api3m/bitcoin-bankathon-airnode-client/blob/main/hardhat.config.js).
+3. Put your test wallet private key in [hardhat.config.js](/hardhat.config.js).
 ```javascript
   networks: {
 	  testnet: {
@@ -52,9 +52,9 @@ npx hardhat --network testnet run scripts/make-request.js
 
 There are 3 files to read.
 
-1. [contracts/ExampleClient.sol](https://github.com/37Rb/airnode-client-starter-rsk/blob/main/contracts/ExampleClient.sol) is the smart contract that makes API requests to Airnode.
-2. [scripts/setup.js](https://github.com/37Rb/airnode-client-starter-rsk/blob/main/scripts/setup.js) is the script you run once to set everything up. It uses Airnode Admin.
-3. [scripts/make-request.js](https://github.com/37Rb/airnode-client-starter-rsk/blob/main/scripts/make-request.js) is the script that triggers an Airnode request. You can run it repeatedly to call different APIs.
+1. [contracts/ExampleClient.sol](/contracts/ExampleClient.sol) is the smart contract that makes API requests to Airnode.
+2. [scripts/setup.js](/scripts/setup.js) is the script you run once to set everything up. It uses Airnode Admin.
+3. [scripts/make-request.js](/scripts/make-request.js) is the script that triggers an Airnode request. You can run it repeatedly to call different APIs.
 
 ### Call More APIs
 
