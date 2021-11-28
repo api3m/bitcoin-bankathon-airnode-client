@@ -112,6 +112,21 @@ const requestParams = [
 const showResult = (data) => ethers.utils.parseBytes32String(data) + " GBP/USD";
 ```
 
+#### Interzoid : Get Metal Price
+
+[Web2 Docs](https://www.interzoid.com/services/getmetalprices), [Airnode Docs](https://gist.github.com/interzoid/f05e63df824a772565d5b389204defc3#0xc0aa4a6c85fb5b6fba3cde7be72746a30bfdb03e1cedaaac68dd794063851094)
+
+```javascript
+const apiProviderId = "0xa89a4d199eebf5ceb85b87d6aad3199e74e465b1529b850cde96981b7db9a0a7";
+const endpointId = "0xc0aa4a6c85fb5b6fba3cde7be72746a30bfdb03e1cedaaac68dd794063851094";
+const requestParams = [
+	{ name: '_path', type: 'bytes32', value: 'Price'},
+	{ name: '_type', type: 'bytes32', value: 'bytes32'},
+	{ name: 'metal', type: 'bytes32', value: 'gold' }
+];
+const showResult = (data) => "$" + ethers.utils.parseBytes32String(data) + " gold/USD";
+```
+
 #### Sanctions.io : Get Programs
 
 [Web2 Docs](https://app.swaggerhub.com/apis-docs/Sanctions.IO/sanctions-io_api/d8b6c665-a2e7-4346-a53b-c56c0f0210ed#/sources/programs), [Airnode Docs](https://gist.github.com/camronh/b80b3b2aa87211f38ca48693d82740c8#0x809a51553f8634545ea95cbe6a90f7902d4d0056fae1aa3ec7b709664aec891b)
