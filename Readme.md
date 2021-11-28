@@ -81,6 +81,22 @@ const requestParams = [
 const showResult = (data) => ethers.utils.parseBytes32String(data);
 ```
 
+#### dxFeed : Get Events
+
+[Web2 Docs](https://tools.dxfeed.com/webservice/rest-demo.jsp), [Airnode Docs](https://gist.github.com/camronh/f4439dad5de9eafad7b1ea75e5ac6656)
+
+```javascript
+const apiProviderId = "0x155b746ad948bdbbaa6ae4279ae4c024403984ddf364499409697b66c42b826c";
+const endpointId = "0x4903a994f440e0bf4c4389832e18f7cff6ead57195b5f50a4cab92369b4621f4";
+const requestParams = [
+	{ name: '_path', type: 'bytes32', value: 'Summary.MSFT.dayHighPrice'},
+	{ name: '_type', type: 'bytes32', value: 'bytes32'},
+	{ name: 'event', type: 'bytes32', value: 'Summary' },
+	{ name: 'symbol', type: 'bytes32', value: 'MSFT' }
+];
+const showResult = (data) => "$" + ethers.utils.parseBytes32String(data) + " day high";
+```
+
 #### Sanctions.io : Get Programs
 
 [Web2 Docs](https://app.swaggerhub.com/apis-docs/Sanctions.IO/sanctions-io_api/d8b6c665-a2e7-4346-a53b-c56c0f0210ed#/sources/programs), [Airnode Docs](https://gist.github.com/camronh/b80b3b2aa87211f38ca48693d82740c8#0x809a51553f8634545ea95cbe6a90f7902d4d0056fae1aa3ec7b709664aec891b)

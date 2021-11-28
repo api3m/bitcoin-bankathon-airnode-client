@@ -18,7 +18,7 @@ const showResult = (data) => ethers.utils.parseBytes32String(data);
 async function main() {
   // Get the config object created by setup.js
   const config = JSON.parse(fs.readFileSync(".airnode-starter.config.json"));
-  console.log(`Using config: ` + JSON.stringify(config, null, 2));
+  console.log("Using config: " + JSON.stringify(config, null, 2));
 
   // Get the preconnected wallet from Hardhat
   const [wallet] = await ethers.getSigners();
@@ -75,6 +75,8 @@ async function main() {
   }
 
   console.log(`Making the request to API provider ${apiProviderId} endpoint ${endpointId}...`);
+  console.log("Request params: " + JSON.stringify(requestParams, null, 2))
+
   const requestId = await makeRequest();
   console.log(`Completed the request with ID ${requestId}, waiting for fulfillment...`);
 
