@@ -16,6 +16,8 @@ RSK mines a block about [once every 30 seconds](https://www.rsk.co/faqs#scalabil
 
 4. [Export your test wallet private key](https://metamask.zendesk.com/hc/en-us/articles/360015289632-How-to-Export-an-Account-Private-Key). You'll need it in the next section.
 
+It's not necessary to use MetaMask to create your test wallet but it's informative to do so. Alternatively, you can generate a test wallet with [ethers.Wallet.createRandom()](https://docs.ethers.io/v5/api/signer/#Wallet-createRandom) and just fund that instead.
+
 ### Set Up and Run the Code
 
 1. Install the dependencies.
@@ -112,21 +114,6 @@ const requestParams = [
 const showResult = (data) => ethers.utils.parseBytes32String(data) + " GBP/USD";
 ```
 
-#### Interzoid : Get Metal Price
-
-[Web2 Docs](https://www.interzoid.com/services/getmetalprices), [Airnode Docs](https://gist.github.com/interzoid/f05e63df824a772565d5b389204defc3#0xc0aa4a6c85fb5b6fba3cde7be72746a30bfdb03e1cedaaac68dd794063851094)
-
-```javascript
-const apiProviderId = "0xa89a4d199eebf5ceb85b87d6aad3199e74e465b1529b850cde96981b7db9a0a7";
-const endpointId = "0xc0aa4a6c85fb5b6fba3cde7be72746a30bfdb03e1cedaaac68dd794063851094";
-const requestParams = [
-	{ name: '_path', type: 'bytes32', value: 'Price'},
-	{ name: '_type', type: 'bytes32', value: 'bytes32'},
-	{ name: 'metal', type: 'bytes32', value: 'gold' }
-];
-const showResult = (data) => "$" + ethers.utils.parseBytes32String(data) + " gold/USD";
-```
-
 #### Sanctions.io : Get Programs
 
 [Web2 Docs](https://app.swaggerhub.com/apis-docs/Sanctions.IO/sanctions-io_api/d8b6c665-a2e7-4346-a53b-c56c0f0210ed#/sources/programs), [Airnode Docs](https://gist.github.com/camronh/b80b3b2aa87211f38ca48693d82740c8#0x809a51553f8634545ea95cbe6a90f7902d4d0056fae1aa3ec7b709664aec891b)
@@ -148,4 +135,42 @@ const apiProviderId = "0x189989906bd5b4076005549386731dbcb69329d7b7ae4de32707a44
 const endpointId = "0xf466b8feec41e9e50815e0c9dca4db1ff959637e564bb13fefa99e9f9f90453c";
 const requestParams = [{ name: 'coinId', type: 'bytes32', value: 'ethereum' }];
 const showResult = (data) => (data / 1e6) + " USD";
+```
+
+#### Interzoid : Get Metal Price
+
+> :warning: This API is not currently working. Please stand by.
+
+[Web2 Docs](https://www.interzoid.com/services/getmetalprices), [Airnode Docs](https://gist.github.com/interzoid/f05e63df824a772565d5b389204defc3#0xc0aa4a6c85fb5b6fba3cde7be72746a30bfdb03e1cedaaac68dd794063851094)
+
+```javascript
+const apiProviderId = "0xa89a4d199eebf5ceb85b87d6aad3199e74e465b1529b850cde96981b7db9a0a7";
+const endpointId = "0xc0aa4a6c85fb5b6fba3cde7be72746a30bfdb03e1cedaaac68dd794063851094";
+const requestParams = [
+	{ name: '_path', type: 'bytes32', value: 'Price'},
+	{ name: '_type', type: 'bytes32', value: 'bytes32'},
+	{ name: 'metal', type: 'bytes32', value: 'gold' }
+];
+const showResult = (data) => "$" + ethers.utils.parseBytes32String(data) + " gold/USD";
+```
+
+#### Cignals : Get Footprints
+
+> :warning: This API is not currently working. Please stand by.
+
+[Web2 Docs](https://docs.cignals.io/#footprints), [Airnode Docs](https://gist.github.com/camronh/df819747f434d642cdf67487370e5500#0xc0355f97009ad0c34d2708193aa0963f129d268148a1dc19254ecf8e428c4349)
+
+```javascript
+const apiProviderId = "0xe13ae740d08cfa4b7ad1e1a202136cc663924db80fd2ec41864c4c2f315f54dc";
+const endpointId = "0xc0355f97009ad0c34d2708193aa0963f129d268148a1dc19254ecf8e428c4349";
+const requestParams = [
+	{ name: '_path', type: 'bytes32', value: '0.side'},
+	{ name: '_type', type: 'bytes32', value: 'bytes32'},
+	{ name: 'instrument_id', type: 'bytes32', value: '272' },
+	{ name: 'start_range', type: 'bytes32', value: '1605027600000' },
+	{ name: 'end_range', type: 'bytes32', value: '1605031200000' },
+	{ name: 'price_step', type: 'bytes32', value: '10' },
+	{ name: 'time_step', type: 'bytes32', value: '1h' }
+];
+const showResult = (data) => ethers.utils.parseBytes32String(data);
 ```
