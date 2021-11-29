@@ -16,7 +16,17 @@ RSK mines a block about [once every 30 seconds](https://www.rsk.co/faqs#scalabil
 
 4. [Export your test wallet private key](https://metamask.zendesk.com/hc/en-us/articles/360015289632-How-to-Export-an-Account-Private-Key). You'll need it in the next section.
 
-It's not necessary to use MetaMask to create your test wallet but it's informative to do so. Alternatively, you can generate a test wallet with [ethers.Wallet.createRandom()](https://docs.ethers.io/v5/api/signer/#Wallet-createRandom) and just fund that instead.
+Put your test wallet private key in [hardhat.config.js](/hardhat.config.js).
+```javascript
+  networks: {
+	  testnet: {
+		  url: "https://testnet.sovryn.app/rpc",
+		  accounts: ["0xPUT YOUR TEST WALLET PRIVATE KEY HERE"]
+	  }
+  }
+```
+
+> :information_source: It's not necessary to use MetaMask to create your test wallet but it's informative to do so. Alternatively, you can generate a test wallet with [ethers.Wallet.createRandom()](https://docs.ethers.io/v5/api/signer/#Wallet-createRandom) and fund that instead.
 
 ### Set Up and Run the Code
 
@@ -30,22 +40,12 @@ npm install
 npx hardhat compile
 ```
 
-3. Put your test wallet private key in [hardhat.config.js](/hardhat.config.js).
-```javascript
-  networks: {
-	  testnet: {
-		  url: "https://testnet.sovryn.app/rpc",
-		  accounts: ["0xPUT YOUR TEST WALLET PRIVATE KEY HERE"]
-	  }
-  }
-```
-
-4. Deploy the ExampleClient contract and create a requester on RSK Testnet. You only need to run this once.
+3. Deploy the ExampleClient contract and create a requester on RSK Testnet. You only need to run this once.
 ```
 npx hardhat --network testnet run scripts/setup.js
 ```
 
-5. Make a request. You can run this repeatedly to make API requests.
+4. Make a request. You can run this repeatedly to make API requests.
 ```
 npx hardhat --network testnet run scripts/make-request.js
 ```
