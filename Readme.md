@@ -14,9 +14,8 @@ RSK mines a block about [once every 30 seconds](https://www.rsk.co/faqs#scalabil
 
 3. [Fund your test account](https://faucet.rsk.co/) with the RSK Testnet faucet. You can add 0.05 RBTC to your test wallet per day using the faucet.
 
-4. [Export your test wallet private key](https://metamask.zendesk.com/hc/en-us/articles/360015289632-How-to-Export-an-Account-Private-Key). You'll need it in the next section.
+4. [Export your test wallet private key](https://metamask.zendesk.com/hc/en-us/articles/360015289632-How-to-Export-an-Account-Private-Key) and put it in [hardhat.config.js](/hardhat.config.js).
 
-Put your test wallet private key in [hardhat.config.js](/hardhat.config.js).
 ```javascript
   networks: {
 	  testnet: {
