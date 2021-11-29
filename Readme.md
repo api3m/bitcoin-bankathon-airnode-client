@@ -127,6 +127,20 @@ const requestParams = [
 const showResult = (data) => parseInt(data) + " programs";
 ```
 
+#### Sanctions.io : Get Sources
+
+[Web2 Docs](https://app.swaggerhub.com/apis-docs/Sanctions.IO/sanctions-io_api/d8b6c665-a2e7-4346-a53b-c56c0f0210ed#/sources/sources), [Airnode Docs](https://gist.github.com/camronh/b80b3b2aa87211f38ca48693d82740c8#0x4b1da580aa6ef185c68df7956ea256686384627cecdc2b7ea3d686adad11c6b1)
+
+```javascript
+const apiProviderId = "0x797a83d217645fc2f6af6f96a63795a02b6243908070eaa48be2a5bacb435956";
+const endpointId = "0x4b1da580aa6ef185c68df7956ea256686384627cecdc2b7ea3d686adad11c6b1";
+const requestParams = [
+	{ name: '_path', type: 'bytes32', value: 'results.0.name'},
+	{ name: '_type', type: 'bytes32', value: 'bytes32'}
+];
+const showResult = (data) => ethers.utils.parseBytes32String(data);
+```
+
 #### CoinGecko : Get Price
 
 ```javascript
