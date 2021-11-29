@@ -202,3 +202,18 @@ const requestParams = [
 ];
 const showResult = (data) => ethers.utils.parseBytes32String(data);
 ```
+
+#### Real Digital Asset Index : Get IV Ranking
+
+> :warning: This API is not currently working. Please stand by.
+
+[Web2 Docs](https://gist.github.com/rdaindex/68fe93e19644d83d3da76b218119b3ed#get-apirdaindexcomenterpriseivranking), [Airnode Docs](https://gist.github.com/rdaindex/e01cb50abe88cbf766ea8a53ef8b4819#0x42d949f6ac0a6b8110c53c8b80f1895651f966b6646a645eff797c9ae884aca5)
+
+```javascript
+const apiProviderId = "0xf2e72b2362478bf542101f0b2cdbac92bcfa54a2c47deecadd9688470837e9d6";
+const endpointId = "0x42d949f6ac0a6b8110c53c8b80f1895651f966b6646a645eff797c9ae884aca5";
+const requestParams = [
+  { name: '_path', type: 'bytes32', value: '1.marketivlevelAsset.asset.name'},
+  { name: '_type', type: 'bytes32', value: 'bytes32'}];
+const showResult = (data) => ethers.utils.parseBytes32String(data) + " name";
+```
