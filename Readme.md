@@ -232,3 +232,20 @@ const requestParams = [
   { name: '_type', type: 'bytes32', value: 'bytes32'}];
 const showResult = (data) => ethers.utils.parseBytes32String(data) + " name";
 ```
+
+#### Twelve Data : Get Quote
+
+> :warning: This API is not currently working. Please stand by.
+
+[Web2 Docs](https://twelvedata.com/docs#quote), [Airnode Docs](https://gist.github.com/midasSSS/7e49c95024212d0e4f3e0a7c58f2b14f#0x1b0e1584305a8bca993cdbad1ccae231e38d539b1dbcc1fdc532e921edd1f822)
+
+```javascript
+const apiProviderId = "0x5adf9ca6515f595e5441c7b4617aebdd5b8db81781d4a399e5406f03d241a5fc";
+const endpointId = "0x1b0e1584305a8bca993cdbad1ccae231e38d539b1dbcc1fdc532e921edd1f822";
+const requestParams = [
+	{ name: '_path', type: 'bytes32', value: 'open'},
+	{ name: '_type', type: 'bytes32', value: 'bytes32'},
+	{ name: 'symbol', type: 'bytes32', value: 'AAPL' }
+];
+const showResult = (data) => "$" + ethers.utils.parseBytes32String(data) + " open price";
+```
