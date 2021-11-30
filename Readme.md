@@ -156,6 +156,21 @@ const requestParams = [
 const showResult = (data) => ethers.utils.parseBytes32String(data);
 ```
 
+#### PWP Leeway : Get Live Price
+
+[Web2 Docs](https://leeway.tech/api-doc/general?lang=eng), [Airnode Docs](https://gist.github.com/camronh/55286c02ef368a2581fa11dac54db68c#0x765b30b1ab1e8fe30fcd25bff1d1e247b05e8893038625830779869230acdd0f)
+
+```javascript
+const apiProviderId = "0x312add0c7b18e839a8d3cf793f85ccb431f4f52418fba494680eb2c46ac14e7e";
+const endpointId = "0x765b30b1ab1e8fe30fcd25bff1d1e247b05e8893038625830779869230acdd0f";
+const requestParams = [
+	{ name: '_path', type: 'bytes32', value: 'close'},
+	{ name: '_type', type: 'bytes32', value: 'bytes32'},
+	{ name: 'symbolExchange', type: 'bytes32', value: 'SAP.XETRA' }
+];
+const showResult = (data) => "$" + ethers.utils.parseBytes32String(data) + " closing price";
+```
+
 #### CoinGecko : Get Price
 
 ```javascript
