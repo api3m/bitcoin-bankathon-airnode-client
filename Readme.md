@@ -128,6 +128,20 @@ const requestParams = [
 const showResult = (data) => ethers.utils.parseBytes32String(data);
 ```
 
+#### Finage : Get Sector Performance
+
+[Web2 Docs](https://finage.co.uk/docs/api/sector-performance-api), [Airnode Docs](https://gist.github.com/camronh/a3b40c696822b1aa833f5a2cf7e5e7db#0x9d5a3e52a7ee9d9027420ffcd606b6417b81048fc79e15a84c020205b9b67eaf)
+
+```javascript
+const apiProviderId = "0xa22d277d24393dfafdb4567e706bad68c74f71c0ed409a563f8aaba38ba5d0c6";
+const endpointId = "0x9d5a3e52a7ee9d9027420ffcd606b6417b81048fc79e15a84c020205b9b67eaf";
+const requestParams = [
+	{ name: '_path', type: 'bytes32', value: '0.change_percentage'},
+	{ name: '_type', type: 'bytes32', value: 'bytes32'}
+];
+const showResult = (data) => ethers.utils.parseBytes32String(data);
+```
+
 #### Sanctions.io : Get Programs
 
 [Web2 Docs](https://app.swaggerhub.com/apis-docs/Sanctions.IO/sanctions-io_api/d8b6c665-a2e7-4346-a53b-c56c0f0210ed#/sources/programs), [Airnode Docs](https://gist.github.com/camronh/b80b3b2aa87211f38ca48693d82740c8#0x809a51553f8634545ea95cbe6a90f7902d4d0056fae1aa3ec7b709664aec891b)
