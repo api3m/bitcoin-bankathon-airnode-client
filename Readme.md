@@ -185,6 +185,20 @@ const requestParams = [
 const showResult = (data) => "$" + ethers.utils.parseBytes32String(data) + " closing price";
 ```
 
+#### Cignals : Get Instruments
+
+[Web2 Docs](https://docs.cignals.io/#instruments), [Airnode Docs](https://gist.github.com/camronh/df819747f434d642cdf67487370e5500#0x057d95392ec5c49ee236b7bd5f7a237a1cf1964d2dad815677ed4d8e31d2fedf)
+
+```javascript
+const apiProviderId = "0xe13ae740d08cfa4b7ad1e1a202136cc663924db80fd2ec41864c4c2f315f54dc";
+const endpointId = "0x057d95392ec5c49ee236b7bd5f7a237a1cf1964d2dad815677ed4d8e31d2fedf";
+const requestParams = [
+	{ name: '_path', type: 'bytes32', value: '0.exchange'},
+	{ name: '_type', type: 'bytes32', value: 'bytes32'}
+];
+const showResult = (data) => ethers.utils.parseBytes32String(data);
+```
+
 #### CoinGecko : Get Price
 
 ```javascript
