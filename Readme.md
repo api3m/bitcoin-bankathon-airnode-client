@@ -211,22 +211,21 @@ const requestParams = [
 const showResult = (data) => "$" + ethers.utils.parseBytes32String(data) + " gold/USD";
 ```
 
-#### Cignals : Get Footprints
+#### Cignals : Get OHLC(V)
 
 > :warning: This API is not currently working. Please stand by.
 
-[Web2 Docs](https://docs.cignals.io/#footprints), [Airnode Docs](https://gist.github.com/camronh/df819747f434d642cdf67487370e5500#0xc0355f97009ad0c34d2708193aa0963f129d268148a1dc19254ecf8e428c4349)
+[Web2 Docs](https://docs.cignals.io/#ohlc-v), [Airnode Docs](https://gist.github.com/camronh/df819747f434d642cdf67487370e5500#ohlc-)
 
 ```javascript
 const apiProviderId = "0xe13ae740d08cfa4b7ad1e1a202136cc663924db80fd2ec41864c4c2f315f54dc";
-const endpointId = "0xc0355f97009ad0c34d2708193aa0963f129d268148a1dc19254ecf8e428c4349";
+const endpointId = "0x31c4ef729dac3e40538d729fce8f4bae96ece2263ee265bca58f975c2886a890";
 const requestParams = [
 	{ name: '_path', type: 'bytes32', value: '0.side'},
 	{ name: '_type', type: 'bytes32', value: 'bytes32'},
 	{ name: 'instrument_id', type: 'bytes32', value: '272' },
 	{ name: 'start_range', type: 'bytes32', value: '1605027600000' },
 	{ name: 'end_range', type: 'bytes32', value: '1605031200000' },
-	{ name: 'price_step', type: 'bytes32', value: '10' },
 	{ name: 'time_step', type: 'bytes32', value: '1h' }
 ];
 const showResult = (data) => ethers.utils.parseBytes32String(data);
