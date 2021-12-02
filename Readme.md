@@ -82,6 +82,22 @@ const requestParams = [
 const showResult = (data) => ethers.utils.parseBytes32String(data);
 ```
 
+#### Open Bank Project : Get Customer Attributes
+
+[Web2 Docs](https://apiexplorersandbox.openbankproject.com/?version=OBPv4.0.0&operation_id=OBPv4_0_0-getCustomerAttributes&currentTag=Customer#OBPv4_0_0-getCustomerAttributes), [Airnode Docs](https://gist.github.com/camronh/70f3356d54defd3dbebbac868ac73805#get-obpv400banksbank_idcustomerscustomer_idattributes-)
+
+```javascript
+const apiProviderId = "0xc6323485739cdf4f1073c1b21bb21a8a5c0a619ffb84dd56c4f4454af2802a40";
+const endpointId = "0x0e55b7a2e98c1ec9d8c8d11e19bcf9b91e1e0e6a31b51d4817d54177470ba517";
+const requestParams = [
+    { name: '_path', type: 'bytes32', value: 'customer_attributes.0.name'},
+    { name: '_type', type: 'bytes32', value: 'bytes32'},
+    { name: 'BANK_ID', type: 'bytes32', value: 'slv.01.uk.bk0'},
+    { name: 'CUSTOMER_ID', type: 'string', value: '887674a5-9cf9-4481-a2a2-bd09fc277fc1'}
+];
+const showResult = (data) => ethers.utils.parseBytes32String(data);
+```
+
 #### dxFeed : Get Events
 
 [Web2 Docs](https://tools.dxfeed.com/webservice/rest-demo.jsp), [Airnode Docs](https://gist.github.com/camronh/f4439dad5de9eafad7b1ea75e5ac6656#0x4903a994f440e0bf4c4389832e18f7cff6ead57195b5f50a4cab92369b4621f4)
